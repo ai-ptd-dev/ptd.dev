@@ -8,20 +8,29 @@ This framework demonstrates **PTD (Polyglot Transpilation Development)** - a dev
 
 ### Start Your Own Project (Fork This!)
 ```bash
-# Fork this repository on GitHub first, then:
+# 1. Fork this repository on GitHub first, then:
 git clone https://github.com/YOUR-USERNAME/ptd-ruby-cli.git
 cd ptd-ruby-cli
 
-# Install dependencies
+# 2. Install dependencies
 bundle install
 
-# Try the example commands
-./bin/basiccli-ruby hello
-./bin/basiccli-ruby version
+# 3. Customize it for your project with OpenCode
+opencode
+> /setup
+> [Answer questions about your CLI project]
+> [AI renames everything and configures your project]
+> /transpile  # (if /setup renamed things)
+> [AI generates Rust versions of your renamed code]
+> exit
 
-# Build and run the Rust version
+# 4. Try the example commands (now with your project name!)
+./bin/yourcli-ruby hello
+./bin/yourcli-ruby version
+
+# 5. Build and run the Rust version
 ./bin/compile
-./bin/basiccli-rust hello  # 250x faster startup!
+./bin/yourcli-rust hello  # 250x faster startup!
 ```
 
 ### See a Complete Example: TodoCLI
@@ -81,16 +90,47 @@ OpenCode agents automatically optimized the transpilation to achieve:
 ### How to Use OpenCode Agents
 
 ```bash
-# 1. Make changes to your Ruby code
-vim src/commands/myfeature.rb
+# 1. Start an OpenCode interactive session
+opencode
 
-# 2. Let OpenCode transpile it automatically
-opencode transpile  # AI analyzes changes and updates Rust code
+# 2. Inside the OpenCode session, use these commands:
+/setup      # Interactive setup for your new project (after forking)
+            # - Asks for project name, description, purpose
+            # - Renames all BasicCli references to your project
+            # - Updates documentation and configuration
 
-# 3. Verify both implementations work
-./bin/rspec         # Ruby tests
-./bin/test          # Rust tests
-./bin/compile       # Build optimized Rust binary
+/transpile  # Automatically transpile Ruby changes to Rust
+            # - Detects modified Ruby files via git
+            # - Generates equivalent Rust code
+            # - Runs tests for both languages
+            # - Applies formatting and linting
+
+# 3. Or call specific agents directly:
+@ruby-dev        # Ruby expert for SOLID principles & clean code
+                 # "Create a new command that processes CSV files"
+                 
+@rust-transpiler # Rust expert for manual transpilation
+                 # "Convert this Ruby method to idiomatic Rust"
+
+# 4. Example workflow after forking:
+opencode
+> /setup
+> "What is your CLI project name?" MyCoolTool
+> "What does your CLI do?" Manages deployments
+> [AI renames everything and sets up your project]
+
+# 5. Development cycle:
+vim src/commands/deploy.rb  # Write Ruby code
+opencode
+> /transpile                 # AI transpiles to Rust
+# OR manually with agents:
+> @ruby-dev help me improve this command
+> @rust-transpiler convert the deploy command to Rust
+> exit
+
+./bin/rspec                  # Verify Ruby tests
+./bin/test                   # Verify Rust tests  
+./bin/compile                # Build optimized binary
 ```
 
 ### Developer Workflow with OpenCode
@@ -164,11 +204,12 @@ end
 
 ### Step 2: OpenCode Transpiles Automatically
 ```bash
-# Run the transpile command - AI does the work
-opencode transpile
+# Start OpenCode session and run transpile
+opencode
+> /transpile
 
-# OpenCode:
-# ✓ Detects your Ruby changes
+# OpenCode AI agent:
+# ✓ Detects your Ruby changes via git
 # ✓ Understands the business logic
 # ✓ Generates idiomatic Rust code
 # ✓ Maintains error handling patterns
