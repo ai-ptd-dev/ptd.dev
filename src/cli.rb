@@ -7,7 +7,7 @@ require_relative 'commands/version'
 require_relative 'commands/benchmark'
 require_relative 'utils/logger'
 
-module PTD
+module BasicCli
   class CLI < Thor
     def self.exit_on_failure?
       true
@@ -76,4 +76,4 @@ module PTD
   end
 end
 
-PTD::CLI.start(ARGV) if __FILE__ == $PROGRAM_NAME
+BasicCli::CLI.start(ARGV) if __FILE__ == $PROGRAM_NAME

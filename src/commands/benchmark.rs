@@ -46,15 +46,13 @@ impl BenchmarkCommand {
     }
 
     fn run_benchmarks(&self) -> Vec<BenchmarkResult> {
-        let mut results = Vec::new();
-
-        results.push(self.benchmark_string_manipulation());
-        results.push(self.benchmark_array_operations());
-        results.push(self.benchmark_file_io());
-        results.push(self.benchmark_json_parsing());
-        results.push(self.benchmark_hash_operations());
-
-        results
+        vec![
+            self.benchmark_string_manipulation(),
+            self.benchmark_array_operations(),
+            self.benchmark_file_io(),
+            self.benchmark_json_parsing(),
+            self.benchmark_hash_operations(),
+        ]
     }
 
     fn benchmark_string_manipulation(&self) -> BenchmarkResult {
@@ -65,7 +63,11 @@ impl BenchmarkCommand {
             s = s.to_uppercase();
             s = s.chars().rev().collect();
             s = s.replace(['a', 'e', 'i', 'o', 'u'], "*");
-            let _: String = s.chars().map(|c| c.to_string()).collect::<Vec<_>>().join("-");
+            let _: String = s
+                .chars()
+                .map(|c| c.to_string())
+                .collect::<Vec<_>>()
+                .join("-");
         }
 
         let duration = start.elapsed();
@@ -85,7 +87,7 @@ impl BenchmarkCommand {
         for _ in 0..self.iterations {
             let mut arr: Vec<i32> = (1..=100).collect();
             arr = arr.iter().map(|n| n * 2).collect();
-            arr = arr.into_iter().filter(|n| n % 3 == 0).collect();
+            arr.retain(|n| n % 3 == 0);
             arr.sort_unstable();
             arr.reverse();
             let _: i32 = arr.iter().sum();
@@ -172,10 +174,7 @@ impl BenchmarkCommand {
             keys.sort();
             let _: i32 = map.values().sum();
             map.insert("extra".to_string(), 999);
-            let _: HashMap<_, _> = map
-                .into_iter()
-                .filter(|(_, v)| *v > 50)
-                .collect();
+            let _: HashMap<_, _> = map.into_iter().filter(|(_, v)| *v > 50).collect();
         }
 
         let duration = start.elapsed();
@@ -284,7 +283,7 @@ mod tests {
     fn test_benchmark_results_structure() {
         let cmd = BenchmarkCommand::new(10, "console".to_string(), false);
         let results = cmd.run_benchmarks();
-        
+
         assert_eq!(results.len(), 5);
         for result in results {
             assert!(result.iterations == 10);

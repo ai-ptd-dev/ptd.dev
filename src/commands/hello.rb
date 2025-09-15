@@ -1,4 +1,4 @@
-module PTD
+module BasicCli
   module Commands
     class Hello
       def initialize(name, options = {})
@@ -26,11 +26,11 @@ module PTD
       private
 
       def build_greeting
-        time_of_day = get_time_of_day
-        "#{time_of_day}, #{@name}! Welcome to PTD Ruby CLI"
+        time_of_day_greeting = time_of_day
+        "#{time_of_day_greeting}, #{@name}! Welcome to BasicCli"
       end
 
-      def get_time_of_day
+      def time_of_day
         hour = Time.now.hour
         case hour
         when 0..11

@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Lint and auto-fix Ruby and Rust code
+cd "$(dirname "$0")/.."
+
+echo "🔍 Linting and fixing code..."
+echo "============================="
+
+# Ruby linting with Rubocop
+if command -v bundle &> /dev/null; then
+    echo ""
+    echo "💎 Ruby linting with Rubocop..."
+    bundle exec rubocop -A --color
+    RUBY_EXIT=$?
+else
+    echo "⚠️  Skipping Ruby lint (bundler not installed)"
+    RUBY_EXIT=0
+fi
+
+# Rust linting with clippy and formatting
+if command -v cargo &> /dev/null; then
+    echo ""
+    echo "🦀 Rust formatting with rustfmt..."
+    cargo fmt
+    
+    echo ""
+    echo "🦀 Rust linting with clippy..."
+    cargo clippy --fix --allow-dirty --allow-staged -- -W clippy::all
+    RUST_EXIT=$?
+else
+    echo "⚠️  Skipping Rust lint (cargo not installed)"
+    RUST_EXIT=0
+fi
+
+echo ""
+if [ $RUBY_EXIT -eq 0 ] && [ $RUST_EXIT -eq 0 ]; then
+    echo "✅ All linting complete!"
+    exit 0
+else
+    echo "⚠️  Some linting issues remain"
+    exit 1
+fi

@@ -2,15 +2,23 @@ use anyhow::Result;
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
 
-mod commands;
-mod utils;
+mod commands {
+    pub mod benchmark;
+    pub mod hello;
+    pub mod version;
+}
+
+mod utils {
+    pub mod file_handler;
+    pub mod logger;
+}
 
 use commands::{benchmark::BenchmarkCommand, hello::HelloCommand, version::VersionCommand};
 use utils::logger::Logger;
 
 #[derive(Parser)]
-#[command(name = "ptd-rust")]
-#[command(author, version, about = "PTD Ruby CLI - Rust Version", long_about = None)]
+#[command(name = "basiccli-rust")]
+#[command(author, version, about = "BasicCli - High Performance CLI (Rust Version)", long_about = None)]
 struct Cli {
     #[command(subcommand)]
     command: Commands,

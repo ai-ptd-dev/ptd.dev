@@ -27,7 +27,7 @@ impl VersionCommand {
 
     fn build_version_info(&self) -> serde_json::Value {
         json!({
-            "name": "PTD Ruby CLI",
+            "name": "BasicCli",
             "version": Self::VERSION,
             "build_date": Self::BUILD_DATE,
             "ruby_version": format!("Rust {}", env!("CARGO_PKG_RUST_VERSION")),
@@ -39,7 +39,7 @@ impl VersionCommand {
 
     fn display_formatted(&self, info: &serde_json::Value) {
         println!("╔═══════════════════════════════════════════════════════════╗");
-        println!("║                    PTD Ruby CLI (Rust)                    ║");
+        println!("║                    BasicCli (Rust)                        ║");
         println!("╠═══════════════════════════════════════════════════════════╣");
         println!(
             "║ Version:      {:44} ║",
@@ -58,10 +58,7 @@ impl VersionCommand {
             info["platform"].as_str().unwrap_or("")
         );
         println!("╠═══════════════════════════════════════════════════════════╣");
-        println!(
-            "║ {:^57} ║",
-            info["description"].as_str().unwrap_or("")
-        );
+        println!("║ {:^57} ║", info["description"].as_str().unwrap_or(""));
         println!("╚═══════════════════════════════════════════════════════════╝");
     }
 }
@@ -96,7 +93,7 @@ mod tests {
     fn test_version_info_structure() {
         let cmd = VersionCommand::new(false);
         let info = cmd.build_version_info();
-        
+
         assert!(info["name"].is_string());
         assert!(info["version"].is_string());
         assert!(info["build_date"].is_string());

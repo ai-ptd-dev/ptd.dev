@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Compile Rust binary
+echo "🔨 Compiling Rust binary..."
+echo "==========================="
+
+cd "$(dirname "$0")/.."
+
+if ! command -v cargo &> /dev/null; then
+    echo "Error: Rust/Cargo is not installed"
+    echo "Install Rust from: https://rustup.rs/"
+    exit 1
+fi
+
+echo "Building in release mode with optimizations..."
+cargo build --release
+
+if [ $? -eq 0 ]; then
+    echo ""
+    echo "✅ Build successful!"
+    echo ""
+    echo "Binary location: ./target/release/basiccli-rust"
+    
+    # Show binary size
+    SIZE=$(du -h target/release/basiccli-rust | cut -f1)
+    echo "Binary size: $SIZE"
+    
+    # Strip symbols for smaller binary (optional)
+    if command -v strip &> /dev/null; then
+        cp target/release/basiccli-rust target/release/basiccli-rust.unstripped
+        strip target/release/basiccli-rust
+        NEW_SIZE=$(du -h target/release/basiccli-rust | cut -f1)
+        echo "Stripped size: $NEW_SIZE"
+    fi
+    
+    echo ""
+    echo "Run with: ./target/release/basiccli-rust --help"
+else
+    echo "❌ Build failed!"
+    exit 1
+fi

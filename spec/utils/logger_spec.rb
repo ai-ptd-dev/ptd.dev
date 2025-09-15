@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative '../../src/utils/logger'
 
-RSpec.describe PTD::Utils::Logger do
+RSpec.describe BasicCli::Utils::Logger do
   let(:output) { StringIO.new }
   let(:logger) { described_class.new(output: output, use_colors: false) }
 
@@ -161,7 +161,7 @@ RSpec.describe PTD::Utils::Logger do
   end
 end
 
-RSpec.describe PTD::Utils::FileLogger do
+RSpec.describe BasicCli::Utils::FileLogger do
   let(:temp_file) { Tempfile.new('test.log') }
   let(:file_logger) { described_class.new(temp_file.path) }
 
@@ -185,11 +185,11 @@ RSpec.describe PTD::Utils::FileLogger do
   end
 end
 
-RSpec.describe PTD::Utils::MultiLogger do
+RSpec.describe BasicCli::Utils::MultiLogger do
   let(:output1) { StringIO.new }
   let(:output2) { StringIO.new }
-  let(:logger1) { PTD::Utils::Logger.new(output: output1, use_colors: false) }
-  let(:logger2) { PTD::Utils::Logger.new(output: output2, use_colors: false) }
+  let(:logger1) { BasicCli::Utils::Logger.new(output: output1, use_colors: false) }
+  let(:logger2) { BasicCli::Utils::Logger.new(output: output2, use_colors: false) }
   let(:multi_logger) { described_class.new(logger1, logger2) }
 
   it 'logs to all configured loggers' do

@@ -1,13 +1,13 @@
 require 'spec_helper'
 require_relative '../../src/commands/version'
 
-RSpec.describe PTD::Commands::Version do
+RSpec.describe BasicCli::Commands::Version do
   describe '#execute' do
     context 'with default output' do
       it 'displays formatted version information' do
         command = described_class.new
 
-        expect { command.execute }.to output(/PTD Ruby CLI/).to_stdout
+        expect { command.execute }.to output(/BasicCli/).to_stdout
         expect { command.execute }.to output(/Version:.*1\.0\.0/).to_stdout
         expect { command.execute }.to output(/Build Date:.*2025-01-15/).to_stdout
         expect { command.execute }.to output(/Ruby Version:/).to_stdout
@@ -29,7 +29,7 @@ RSpec.describe PTD::Commands::Version do
         output = capture_stdout { command.execute }
 
         json_data = JSON.parse(output)
-        expect(json_data['name']).to eq('PTD Ruby CLI')
+        expect(json_data['name']).to eq('BasicCli')
         expect(json_data['version']).to eq('1.0.0')
         expect(json_data['build_date']).to eq('2025-01-15')
         expect(json_data['repository']).to include('github.com')
@@ -51,11 +51,11 @@ RSpec.describe PTD::Commands::Version do
 
   describe 'constants' do
     it 'has correct version number' do
-      expect(PTD::Commands::Version::VERSION).to eq('1.0.0')
+      expect(BasicCli::Commands::Version::VERSION).to eq('1.0.0')
     end
 
     it 'has build date' do
-      expect(PTD::Commands::Version::BUILD_DATE).to eq('2025-01-15')
+      expect(BasicCli::Commands::Version::BUILD_DATE).to eq('2025-01-15')
     end
   end
 

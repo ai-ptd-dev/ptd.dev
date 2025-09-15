@@ -4,7 +4,7 @@ require 'csv'
 require 'fileutils'
 require 'digest'
 
-module PTD
+module BasicCli
   module Utils
     class FileHandler
       class FileError < StandardError; end

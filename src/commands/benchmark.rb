@@ -3,7 +3,7 @@ require 'json'
 require 'csv'
 require 'tempfile'
 
-module PTD
+module BasicCli
   module Commands
     class Benchmark
       def initialize(iterations, options = {})

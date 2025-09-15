@@ -1,13 +1,13 @@
 require 'spec_helper'
 require_relative '../../src/commands/hello'
 
-RSpec.describe PTD::Commands::Hello do
+RSpec.describe BasicCli::Commands::Hello do
   describe '#execute' do
     it 'greets the user with their name' do
       command = described_class.new('Alice')
 
       expect { command.execute }.to output(/Alice/).to_stdout
-      expect { command.execute }.to output(/Welcome to PTD Ruby CLI/).to_stdout
+      expect { command.execute }.to output(/Welcome to BasicCli/).to_stdout
     end
 
     it 'includes time-based greeting' do
@@ -33,7 +33,7 @@ RSpec.describe PTD::Commands::Hello do
 
         lines = output.split("\n")
         expect(lines.size).to eq(3)
-        lines.each { |line| expect(line).to include('David') }
+        expect(lines).to all(include('David'))
       end
     end
 

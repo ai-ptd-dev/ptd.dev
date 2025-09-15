@@ -1,11 +1,11 @@
 require 'json'
 
-module PTD
+module BasicCli
   module Commands
     class Version
       VERSION = '1.0.0'.freeze
       BUILD_DATE = '2025-01-15'.freeze
-      RUBY_VERSION = RUBY_VERSION
+      RUBY_VER = RUBY_VERSION
 
       def initialize(options = {})
         @json_output = options[:json] || false
@@ -25,10 +25,10 @@ module PTD
 
       def build_version_info
         {
-          name: 'PTD Ruby CLI',
+          name: 'BasicCli',
           version: VERSION,
           build_date: BUILD_DATE,
-          ruby_version: RUBY_VERSION,
+          ruby_version: RUBY_VER,
           platform: RUBY_PLATFORM,
           description: 'Polyglot Transpilation Development Reference Implementation',
           repository: 'https://github.com/ai-ptd-dev/ptd-ruby-cli'
@@ -37,7 +37,7 @@ module PTD
 
       def display_formatted(info)
         puts '╔═══════════════════════════════════════════════════════════╗'
-        puts '║                    PTD Ruby CLI                           ║'
+        puts '║                       BasicCli                            ║'
         puts '╠═══════════════════════════════════════════════════════════╣'
         puts "║ Version:      #{info[:version].ljust(44)} ║"
         puts "║ Build Date:   #{info[:build_date].ljust(44)} ║"

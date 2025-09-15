@@ -32,7 +32,7 @@ impl HelloCommand {
 
     fn build_greeting(&self) -> String {
         let time_of_day = self.get_time_of_day();
-        format!("{}, {}! Welcome to PTD Ruby CLI", time_of_day, self.name)
+        format!("{}, {}! Welcome to BasicCli", time_of_day, self.name)
     }
 
     fn get_time_of_day(&self) -> &str {
@@ -47,11 +47,13 @@ impl HelloCommand {
     }
 }
 
+#[allow(dead_code)]
 pub struct HelloResult {
     pub success: bool,
     pub message: String,
 }
 
+#[allow(dead_code)]
 impl HelloResult {
     pub fn new(success: bool, message: String) -> Self {
         Self { success, message }
@@ -96,6 +98,6 @@ mod tests {
         let command = HelloCommand::new("Test".to_string(), false, 1);
         let greeting = command.build_greeting();
         assert!(greeting.contains("Test"));
-        assert!(greeting.contains("Welcome to PTD Ruby CLI"));
+        assert!(greeting.contains("Welcome to BasicCli"));
     }
 }

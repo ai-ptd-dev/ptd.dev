@@ -1,260 +1,225 @@
-# PTD Ruby CLI Boilerplate
+# BasicCli - Polyglot CLI Framework
 
-> **Reference Implementation:** Ruby CLI demonstrating Polyglot Transpilation Development patterns
+> **A revolutionary boilerplate**: Write in Ruby, Deploy in Rust. Get 50x faster startup, 2-3x faster execution.
 
-This project showcases best practices for building a Ruby CLI that can be transpiled to other languages like Rust for improved performance.
+BasicCli demonstrates the **PTD (Polyglot Transpilation Development)** paradigm - develop in expressive Ruby, deploy optimized Rust binaries.
 
-## Purpose
-
-**This is a boilerplate/example project.** Fork it to:
-- Learn Ruby CLI development best practices
-- See clean architecture patterns for command-line tools  
-- Use as a template for your own CLI applications
-- Understand how to structure code for future transpilation
-
-## Project Structure
-
-```
-├── src/
-│   ├── cli.rb              # Main CLI entry point with Thor
-│   ├── commands/
-│   │   ├── hello.rb        # Example greeting command
-│   │   ├── version.rb      # Version information command
-│   │   └── benchmark.rb    # Performance benchmarking
-│   └── utils/
-│       ├── logger.rb       # Logging utilities
-│       └── file_handler.rb # File operations
-├── spec/
-│   ├── ruby/               # RSpec tests
-│   │   ├── hello_spec.rb
-│   │   ├── version_spec.rb
-│   │   ├── benchmark_spec.rb
-│   │   ├── logger_spec.rb
-│   │   └── file_handler_spec.rb
-│   └── spec_helper.rb
-├── bin/
-│   └── ptd-ruby            # Ruby executable
-└── Gemfile                 # Ruby dependencies
-```
-
-## Quick Start
+## 🚀 Quick Start
 
 ```bash
 # Clone the boilerplate
-git clone https://github.com/ai-ptd-dev/ptd-ruby-cli
-cd ptd-ruby-cli
+git clone https://github.com/ai-ptd-dev/basiccli
+cd basiccli
 
 # Install Ruby dependencies
 bundle install
 
-# Run the CLI
-./bin/ptd-ruby hello "World"
-./bin/ptd-ruby version
-./bin/ptd-ruby benchmark 1000
+# Run Ruby version (development)
+./bin/basiccli-ruby hello "World"
 
-# Run tests
-bundle exec rspec
+# Compile to Rust (production)
+./bin/compile
 
-# Run linter
-bundle exec rubocop
+# Run Rust version (50x faster!)
+./bin/basiccli-rust hello "World"
 ```
 
-## Available Commands
+## 📊 Performance Gains
 
-### Hello Command
-Greet someone with a personalized message:
-```bash
-# Basic greeting
-./bin/ptd-ruby hello "Alice"
+| Metric | Ruby | Rust | Improvement |
+|--------|------|------|-------------|
+| **Startup Time** | 258ms | 5ms | **51.6x faster** |
+| **Memory Usage** | 48MB | 2.8MB | **94% less** |
+| **Benchmarks** | 91ms | 40ms | **2.3x faster** |
+| **Binary Size** | 40MB+ deps | 1.1MB standalone | **97% smaller** |
 
-# Uppercase greeting
-./bin/ptd-ruby hello "Bob" --uppercase
+## 🎯 What is PTD?
 
-# Repeat greeting
-./bin/ptd-ruby hello "Charlie" --repeat 3
+**Polyglot Transpilation Development** is a new programming paradigm where you:
+1. **Develop** in high-level languages (Ruby, Python)
+2. **Transpile** to system languages (Rust, Go)
+3. **Deploy** optimized native binaries
+
+[Learn more about PTD →](docs/base/ptd-paradigm.md)
+
+## 📁 Project Structure
+
+```
+basiccli/
+├── src/
+│   ├── cli.rb              # Ruby entry point
+│   ├── cli.rs              # Rust entry point (transpiled)
+│   ├── commands/
+│   │   ├── hello.rb        # Ruby implementation
+│   │   ├── hello.rs        # Rust implementation (side-by-side!)
+│   │   └── ...
+│   └── utils/
+│       ├── logger.rb       # Ruby utility
+│       ├── logger.rs       # Rust utility
+│       └── ...
+├── spec/
+│   ├── commands/
+│   │   ├── hello_spec.rb   # Ruby tests
+│   │   ├── hello_test.rs   # Rust tests (side-by-side!)
+│   │   └── ...
+├── bin/
+│   ├── basiccli-ruby       # Ruby runner
+│   ├── basiccli-rust       # Rust runner
+│   ├── compile            # Build Rust binary
+│   ├── test              # Run Rust tests
+│   ├── rspec             # Run Ruby tests
+│   └── lint              # Lint both languages
+└── docs/
+    ├── base/             # Core concepts
+    ├── guides/           # How-to guides
+    └── reference/        # API reference
 ```
 
-### Version Command
-Display version information:
-```bash
-# Formatted output
-./bin/ptd-ruby version
+## 🛠 Features
 
-# JSON output
-./bin/ptd-ruby version --json
-```
-
-### Benchmark Command
-Run performance benchmarks:
-```bash
-# Default console output
-./bin/ptd-ruby benchmark 1000
-
-# JSON output for analysis
-./bin/ptd-ruby benchmark 1000 --output json
-
-# CSV output for spreadsheets
-./bin/ptd-ruby benchmark 1000 --output csv
-
-# Verbose mode
-./bin/ptd-ruby benchmark 1000 --verbose
-```
-
-### Process Command
-Process JSON files:
-```bash
-# Process a JSON file
-./bin/ptd-ruby process data.json
-
-# Pretty print output
-./bin/ptd-ruby process data.json --pretty
-
-# Show processing statistics
-./bin/ptd-ruby process data.json --stats
-```
-
-## Features Demonstrated
-
-### Command Structure
-- Clean command organization using Thor
-- Option parsing with type validation
-- Subcommands with descriptions
-- Default values and aliases
+### Commands Included
+- **hello** - Greeting with time-based messages
+- **version** - Version info (text/JSON)
+- **benchmark** - Performance testing suite
+- **process** - JSON file processing
 
 ### Utilities
-- **Logger**: Colored output, log levels, timing helpers, progress bars
-- **FileHandler**: JSON/YAML/CSV support, atomic writes, checksums
+- **Logger** - Colored output, progress bars, timing
+- **FileHandler** - JSON/YAML/CSV support, atomic writes
 
-### Testing
-- Comprehensive RSpec test suite
-- Test helpers for capturing output
-- Mock and stub examples
-- Edge case coverage
+### Developer Tools
+- `./bin/compile` - Build optimized Rust binary
+- `./bin/test` - Run Rust test suite
+- `./bin/rspec` - Run Ruby test suite
+- `./bin/lint` - Auto-fix code style issues
 
-### Best Practices
-- Modular architecture
-- Error handling patterns
-- Configuration management
-- Performance benchmarking
+## 💻 Development Workflow
 
-## Development
-
-### Running Tests
-```bash
-# Run all tests
-bundle exec rspec
-
-# Run specific test file
-bundle exec rspec spec/ruby/hello_spec.rb
-
-# Run with coverage
-bundle exec rspec --format documentation
-```
-
-### Code Quality
-```bash
-# Run Rubocop linter
-bundle exec rubocop
-
-# Auto-fix issues
-bundle exec rubocop -a
-
-# Check specific file
-bundle exec rubocop src/cli.rb
-```
-
-## Customizing This Boilerplate
-
-1. **Fork this repository**
-2. **Modify Ruby source files** in `src/`
-3. **Add your CLI commands** following the existing patterns
-4. **Update tests** in `spec/ruby/`
-5. **Run tests and linter** to ensure quality
-6. **Build your CLI tool!**
-
-### Adding a New Command
-
-1. Create command file in `src/commands/`:
+### 1. Create Ruby Command
 ```ruby
 # src/commands/mycommand.rb
-module PTD
+module BasicCli
   module Commands
     class MyCommand
-      def initialize(options = {})
-        @options = options
-      end
-      
       def execute
-        # Your command logic here
+        puts "Hello from Ruby!"
       end
     end
   end
 end
 ```
 
-2. Register in `src/cli.rb`:
+### 2. Write Tests
 ```ruby
-desc "mycommand", "Description of your command"
-option :myoption, type: :string, desc: "Option description"
-def mycommand
-  command = Commands::MyCommand.new(options)
-  command.execute
+# spec/commands/mycommand_spec.rb
+RSpec.describe BasicCli::Commands::MyCommand do
+  it 'works' do
+    expect { described_class.new.execute }
+      .to output(/Hello/).to_stdout
+  end
 end
 ```
 
-3. Add tests in `spec/ruby/mycommand_spec.rb`
+### 3. Transpile to Rust
+```rust
+// src/commands/mycommand.rs
+pub struct MyCommand;
 
-## Architecture Decisions
+impl MyCommand {
+    pub fn execute(&self) -> Result<()> {
+        println!("Hello from Rust!");
+        Ok(())
+    }
+}
+```
 
-### Why Thor?
-Thor provides a clean DSL for building CLIs with automatic help generation, option parsing, and subcommand support.
+### 4. Compile & Deploy
+```bash
+./bin/compile
+./bin/basiccli-rust mycommand  # Instant execution!
+```
 
-### Modular Commands
-Each command is a separate class for:
-- Testability
-- Reusability  
-- Clear separation of concerns
-- Easy transpilation
+## 📈 Real-World Impact
 
-### Utility Classes
-Shared functionality in utils/ for:
-- Consistent logging
-- File operations
-- Future extensibility
+For a CLI tool run 100 times daily:
+- **Ruby**: 25.8 seconds total runtime
+- **Rust**: 0.5 seconds total runtime
+- **Time saved**: 25.3 seconds/day (98% reduction)
 
-## PTD Methodology
+In scripts processing 1000 files:
+- **Ruby**: 4.3 minutes
+- **Rust**: 5 seconds
+- **Time saved**: 4.2 minutes (98% reduction)
 
-This project is designed for **Polyglot Transpilation Development**:
-- Write expressive Ruby code
-- Structure for easy transpilation
-- Maintain clean architecture
-- Optimize for both development speed and runtime performance
+## 🎓 Documentation
 
-When ready, this codebase can be transpiled to languages like Rust for:
-- 10-50x performance improvement
-- Native binary distribution
-- Lower memory footprint
-- Deployment without Ruby runtime
+- [**Getting Started**](docs/guides/getting-started.md) - Setup and first steps
+- [**PTD Paradigm**](docs/base/ptd-paradigm.md) - Understanding the methodology
+- [**Performance Analysis**](docs/base/performance.md) - Detailed benchmarks
+- [**Examples**](docs/guides/) - More guides and patterns
 
-## Contributing
+## 🔧 Use This Boilerplate
+
+1. **Fork this repository**
+2. **Rename** BasicCli to your project name
+3. **Add commands** following the pattern
+4. **Write tests** for both Ruby and Rust
+5. **Deploy** the Rust binary
+
+### Customization Example
+
+```bash
+# Fork and rename
+git clone https://github.com/yourusername/mycli
+cd mycli
+
+# Add your command
+vim src/commands/deploy.rb
+vim src/commands/deploy.rs
+
+# Test both versions
+./bin/rspec
+./bin/test
+
+# Ship it!
+./bin/compile
+cp target/release/mycli-rust /usr/local/bin/mycli
+```
+
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create your feature branch
-3. Add tests for new functionality
-4. Ensure tests pass and Rubocop is happy
+3. Ensure both Ruby and Rust tests pass
+4. Maintain functional parity between languages
 5. Submit a pull request
 
-## License
+## 📄 License
 
-MIT License - See LICENSE file for details
+MIT License - Use freely in your projects
 
-## Resources
+## 🌟 Why BasicCli?
 
-- [Thor Documentation](http://whatisthor.com/)
-- [RSpec Documentation](https://rspec.info/)
-- [Ruby Style Guide](https://rubystyle.guide/)
-- [PTD Methodology](https://github.com/ai-ptd-dev/ptd-methodology)
+- **Best of Both Worlds**: Ruby's expressiveness, Rust's performance
+- **Side-by-Side Code**: See Ruby and Rust implementations together
+- **Production Ready**: Full test suites, linting, documentation
+- **Real Performance**: Not theoretical - actual 50x startup improvement
+- **Developer Friendly**: Helper scripts for common tasks
+
+## 🚦 Status
+
+- ✅ Ruby implementation complete
+- ✅ Rust transpilation complete  
+- ✅ Test suites passing
+- ✅ Documentation complete
+- ✅ Performance validated
+
+## 🔗 Links
+
+- [PTD Methodology](https://github.com/ai-ptd-dev)
+- [Performance Report](docs/base/performance.md)
+- [Getting Started Guide](docs/guides/getting-started.md)
 
 ---
 
-**Ready to build your CLI?** Fork this repo and start coding! 🚀
+**Ready to build fast CLIs?** Fork BasicCli and experience the PTD paradigm! 🚀

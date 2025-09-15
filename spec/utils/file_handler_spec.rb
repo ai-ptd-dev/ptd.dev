@@ -3,7 +3,7 @@ require 'tempfile'
 require 'fileutils'
 require_relative '../../src/utils/file_handler'
 
-RSpec.describe PTD::Utils::FileHandler do
+RSpec.describe BasicCli::Utils::FileHandler do
   let(:temp_dir) { Dir.mktmpdir }
 
   after do
@@ -140,7 +140,7 @@ RSpec.describe PTD::Utils::FileHandler do
     it 'raises error if source does not exist' do
       expect do
         described_class.copy('/nonexistent/file.txt', dest)
-      end.to raise_error(PTD::Utils::FileHandler::FileError, /Source file not found/)
+      end.to raise_error(BasicCli::Utils::FileHandler::FileError, /Source file not found/)
     end
   end
 
@@ -211,7 +211,7 @@ RSpec.describe PTD::Utils::FileHandler do
     it 'raises error for non-existent file' do
       expect do
         described_class.size('/nonexistent/file.txt')
-      end.to raise_error(PTD::Utils::FileHandler::FileError)
+      end.to raise_error(BasicCli::Utils::FileHandler::FileError)
     end
   end
 
@@ -301,7 +301,7 @@ RSpec.describe PTD::Utils::FileHandler do
     it 'raises FileError for non-existent file reads' do
       expect do
         described_class.read('/nonexistent/file.txt')
-      end.to raise_error(PTD::Utils::FileHandler::FileError, /File not found/)
+      end.to raise_error(BasicCli::Utils::FileHandler::FileError, /File not found/)
     end
 
     it 'raises FileError for invalid JSON' do
@@ -310,7 +310,7 @@ RSpec.describe PTD::Utils::FileHandler do
 
       expect do
         described_class.read(filepath, format: :json)
-      end.to raise_error(PTD::Utils::FileHandler::FileError, /Invalid JSON/)
+      end.to raise_error(BasicCli::Utils::FileHandler::FileError, /Invalid JSON/)
     end
 
     it 'raises FileError for invalid YAML' do
@@ -319,7 +319,7 @@ RSpec.describe PTD::Utils::FileHandler do
 
       expect do
         described_class.read(filepath, format: :yaml)
-      end.to raise_error(PTD::Utils::FileHandler::FileError, /Invalid YAML/)
+      end.to raise_error(BasicCli::Utils::FileHandler::FileError, /Invalid YAML/)
     end
 
     it 'raises FileError for invalid CSV' do
@@ -328,7 +328,7 @@ RSpec.describe PTD::Utils::FileHandler do
 
       expect do
         described_class.read(filepath, format: :csv)
-      end.to raise_error(PTD::Utils::FileHandler::FileError, /Invalid CSV/)
+      end.to raise_error(BasicCli::Utils::FileHandler::FileError, /Invalid CSV/)
     end
   end
 end

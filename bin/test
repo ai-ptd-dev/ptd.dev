@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Run Rust tests
+echo "🦀 Running Rust tests..."
+echo "========================"
+
+cd "$(dirname "$0")/.."
+
+if ! command -v cargo &> /dev/null; then
+    echo "Error: Rust/Cargo is not installed"
+    echo "Install Rust from: https://rustup.rs/"
+    exit 1
+fi
+
+cargo test --quiet
+
+if [ $? -eq 0 ]; then
+    echo "✅ All Rust tests passed!"
+else
+    echo "❌ Some Rust tests failed"
+    exit 1
+fi

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative '../../src/commands/benchmark'
 
-RSpec.describe PTD::Commands::Benchmark do
+RSpec.describe BasicCli::Commands::Benchmark do
   describe '#execute' do
     let(:iterations) { 10 } # Use small number for tests
 

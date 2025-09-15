@@ -1,6 +1,6 @@
 require 'time'
 
-module PTD
+module BasicCli
   module Utils
     class Logger
       LEVELS = {
@@ -145,8 +145,8 @@ module PTD
         end
       end
 
-      def with_timing(message, &block)
-        @loggers.first.with_timing(message, &block)
+      def with_timing(message, &)
+        @loggers.first.with_timing(message, &)
       end
 
       def progress(current, total, message = 'Progress')

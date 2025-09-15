@@ -6,6 +6,7 @@ use std::sync::Mutex;
 use std::time::{Duration, Instant};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[allow(dead_code)]
 pub enum LogLevel {
     Debug = 0,
     Info = 1,
@@ -20,6 +21,7 @@ pub struct Logger {
     output: Mutex<Box<dyn Write + Send>>,
 }
 
+#[allow(dead_code)]
 impl Logger {
     pub fn new(level: LogLevel) -> Self {
         Self {
@@ -104,16 +106,19 @@ impl Logger {
     pub fn progress(&self, current: usize, total: usize, message: &str) {
         let _percentage = (current as f64 / total as f64 * 100.0) as u64;
         let pb = ProgressBar::new(total as u64);
-        
+
         pb.set_style(
             ProgressStyle::default_bar()
-                .template(&format!("{}: [{{bar:30}}] {{percent}}% ({{pos}}/{{len}})", message))
+                .template(&format!(
+                    "{}: [{{bar:30}}] {{percent}}% ({{pos}}/{{len}})",
+                    message
+                ))
                 .unwrap()
                 .progress_chars("█▉▊▋▌▍▎▏  "),
         );
-        
+
         pb.set_position(current as u64);
-        
+
         if current >= total {
             pb.finish_and_clear();
             println!();
@@ -127,6 +132,7 @@ impl Default for Logger {
     }
 }
 
+#[allow(dead_code)]
 fn format_duration(d: Duration) -> String {
     if d.as_secs() > 60 {
         let minutes = d.as_secs() / 60;
@@ -139,10 +145,12 @@ fn format_duration(d: Duration) -> String {
     }
 }
 
+#[allow(dead_code)]
 pub struct FileLogger {
     logger: Logger,
 }
 
+#[allow(dead_code)]
 impl FileLogger {
     pub fn new(filename: &str) -> Self {
         let file = std::fs::OpenOptions::new()
@@ -169,10 +177,12 @@ impl FileLogger {
     }
 }
 
+#[allow(dead_code)]
 pub struct MultiLogger {
     loggers: Vec<Logger>,
 }
 
+#[allow(dead_code)]
 impl MultiLogger {
     pub fn new(loggers: Vec<Logger>) -> Self {
         Self { loggers }

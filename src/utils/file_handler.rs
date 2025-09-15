@@ -5,39 +5,42 @@ use sha1::Sha1;
 use sha2::{Digest, Sha256, Sha512};
 use std::collections::HashMap;
 use std::fs::{self, File};
-use std::io::{Read, Write as _};
+use std::io::Read;
 use std::path::Path;
 use thiserror::Error;
 
 #[derive(Error, Debug)]
+#[allow(dead_code)]
 pub enum FileError {
     #[error("File not found: {0}")]
     NotFound(String),
-    
+
     #[error("Failed to read {0}: {1}")]
     ReadError(String, String),
-    
+
     #[error("Failed to write {0}: {1}")]
     WriteError(String, String),
-    
+
     #[error("Invalid JSON: {0}")]
     InvalidJson(String),
-    
+
     #[error("Invalid YAML: {0}")]
     InvalidYaml(String),
-    
+
     #[error("Invalid CSV: {0}")]
     InvalidCsv(String),
-    
+
     #[error("Unsupported format: {0}")]
     UnsupportedFormat(String),
-    
+
     #[error("File operation failed: {0}")]
     OperationFailed(String),
 }
 
+#[allow(dead_code)]
 pub struct FileHandler;
 
+#[allow(dead_code)]
 impl FileHandler {
     pub fn read<P: AsRef<Path>>(path: P) -> Result<String> {
         let path = path.as_ref();
@@ -45,8 +48,7 @@ impl FileHandler {
             bail!(FileError::NotFound(path.display().to_string()));
         }
 
-        fs::read_to_string(path)
-            .with_context(|| format!("Failed to read file: {:?}", path))
+        fs::read_to_string(path).with_context(|| format!("Failed to read file: {:?}", path))
     }
 
     pub fn write<P: AsRef<Path>>(path: P, content: &str) -> Result<()> {
@@ -55,8 +57,7 @@ impl FileHandler {
             fs::create_dir_all(parent)?;
         }
 
-        fs::write(path, content)
-            .with_context(|| format!("Failed to write file: {:?}", path))
+        fs::write(path, content).with_context(|| format!("Failed to write file: {:?}", path))
     }
 
     pub fn read_json<T, P>(path: P) -> Result<T>
@@ -65,8 +66,7 @@ impl FileHandler {
         P: AsRef<Path>,
     {
         let content = Self::read(&path)?;
-        serde_json::from_str(&content)
-            .map_err(|e| FileError::InvalidJson(e.to_string()).into())
+        serde_json::from_str(&content).map_err(|e| FileError::InvalidJson(e.to_string()).into())
     }
 
     pub fn write_json<T, P>(path: P, data: &T, pretty: bool) -> Result<()>
@@ -89,8 +89,7 @@ impl FileHandler {
         P: AsRef<Path>,
     {
         let content = Self::read(&path)?;
-        serde_yaml::from_str(&content)
-            .map_err(|e| FileError::InvalidYaml(e.to_string()).into())
+        serde_yaml::from_str(&content).map_err(|e| FileError::InvalidYaml(e.to_string()).into())
     }
 
     pub fn write_yaml<T, P>(path: P, data: &T) -> Result<()>
@@ -109,7 +108,7 @@ impl FileHandler {
         let file = File::open(path.as_ref())?;
         let mut reader = Reader::from_reader(file);
         let headers = reader.headers()?.clone();
-        
+
         let mut records = Vec::new();
         for result in reader.records() {
             let record = result?;
@@ -121,7 +120,7 @@ impl FileHandler {
             }
             records.push(map);
         }
-        
+
         Ok(records)
     }
 
@@ -135,17 +134,20 @@ impl FileHandler {
 
         let file = File::create(path.as_ref())?;
         let mut writer = Writer::from_writer(file);
-        
+
         // Write headers
         let headers: Vec<_> = data[0].keys().cloned().collect();
         writer.write_record(&headers)?;
-        
+
         // Write data
         for row in data {
-            let record: Vec<_> = headers.iter().map(|h| row.get(h).unwrap_or(&String::new()).clone()).collect();
+            let record: Vec<_> = headers
+                .iter()
+                .map(|h| row.get(h).unwrap_or(&String::new()).clone())
+                .collect();
             writer.write_record(&record)?;
         }
-        
+
         writer.flush()?;
         Ok(())
     }
@@ -257,7 +259,7 @@ impl FileHandler {
         }
 
         let metadata = fs::metadata(path)?;
-        
+
         Ok(FileStats {
             size: metadata.len(),
             modified_at: metadata.modified()?,
@@ -287,6 +289,7 @@ impl FileHandler {
 }
 
 #[derive(Debug)]
+#[allow(dead_code)]
 pub struct FileStats {
     pub size: u64,
     pub modified_at: std::time::SystemTime,

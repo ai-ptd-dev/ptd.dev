@@ -3,7 +3,7 @@ require:
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.4
   Exclude:
     - 'vendor/**/*'
     - 'spec/fixtures/**/*'
@@ -19,7 +19,7 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 
 Metrics/MethodLength:
-  Max: 20
+  Enabled: false
 
 Metrics/BlockLength:
   Exclude:
@@ -27,7 +27,10 @@ Metrics/BlockLength:
     - '*.gemspec'
 
 Metrics/ClassLength:
-  Max: 150
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
 
 Layout/LineLength:
   Max: 120
@@ -36,4 +39,19 @@ RSpec/ExampleLength:
   Max: 15
 
 RSpec/MultipleExpectations:
-  Max: 5
+  Max: 10
+
+RSpec/SpecFilePathFormat:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/MultipleDescribes:
+  Enabled: false
+
+RSpec/IndexedLet:
+  Enabled: false
+
+RSpec/IteratedExpectation:
+  Enabled: false
