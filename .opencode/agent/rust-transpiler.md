@@ -1,7 +1,7 @@
 ---
 description: Expert Rust developer specializing in Ruby to Rust transpilation following SOLID principles
 mode: subagent
-model: anthropic/claude-sonnet-4
+model: anthropic/claude-sonnet-4-20250514
 temperature: 0.1
 tools:
   write: true

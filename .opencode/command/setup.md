@@ -1,7 +1,7 @@
 ---
 description: Convert BasicCli boilerplate to your own CLI project
 agent: general
-model: anthropic/claude-sonnet-4
+model: anthropic/claude-sonnet-4-20250514
 ---
 
 I'll help you convert the BasicCli boilerplate into your own CLI project. First, I need to gather some information about your project.

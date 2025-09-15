@@ -19,3 +19,6 @@
 
 ## PTD Paradigm
 Develop features in Ruby for rapid iteration, then transpile to Rust for 50x faster startup and deployment.
+
+## Development Policy
+**IMPORTANT**: All new features and modifications should be implemented in Ruby code only. Do not write or modify Rust code directly. The Rust code will be generated through transpilation from the Ruby implementation.
