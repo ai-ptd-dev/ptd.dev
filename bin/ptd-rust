@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# PTD Rust CLI Runner
+# This script builds and runs the Rust version of the CLI
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+# Check if cargo is installed
+if ! command -v cargo &> /dev/null; then
+    echo "Error: Rust/Cargo is not installed"
+    echo "Install Rust from: https://rustup.rs/"
+    exit 1
+fi
+
+# Build the project if binary doesn't exist or source is newer
+if [ ! -f "$PROJECT_ROOT/target/release/ptd-rust" ] || \
+   [ "$PROJECT_ROOT/src/rust/main.rs" -nt "$PROJECT_ROOT/target/release/ptd-rust" ]; then
+    echo "Building Rust binary..."
+    cd "$PROJECT_ROOT"
+    cargo build --release --quiet
+fi
+
+# Run the Rust CLI
+exec "$PROJECT_ROOT/target/release/ptd-rust" "$@"
