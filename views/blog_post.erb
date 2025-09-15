@@ -1,0 +1,73 @@
+<!-- Structured Data for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "<%= @post[:title] %>",
+  "description": "<%= @page_description %>",
+  "author": {
+    "@type": "Person",
+    "name": "<%= @post_author %>",
+    "url": "https://github.com/sebyx07"
+  },
+  "datePublished": "<%= @post_published %>",
+  "dateModified": "<%= @post[:updated_at] || @post_published %>",
+  "publisher": {
+    "@type": "Organization",
+    "name": "PTD.dev",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ptd.dev/images/icons/icon-512x512.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "<%= @post_url %>"
+  },
+  "image": "https://ptd.dev/images/icons/og-image.png",
+  "keywords": "<%= @post[:tags].join(', ') if @post[:tags] %>"
+}
+</script>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <article>
+        <header class="mb-4">
+          <h1><%= @post[:title] %></h1>
+          
+          <div class="blog-meta mb-3">
+            <span>By <%= @post[:author] %></span>
+            <span class="mx-2">•</span>
+            <span><%= format_date(@post[:date]) %></span>
+            <% if @post[:tags].any? %>
+              <span class="mx-2">•</span>
+              <% @post[:tags].each do |tag| %>
+                <span class="tag me-1"><%= tag %></span>
+              <% end %>
+            <% end %>
+          </div>
+        </header>
+        
+        <div class="blog-content">
+          <%= @content %>
+        </div>
+        
+        <footer class="mt-5 pt-4 border-top">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <a href="/blog" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Back to Blog
+              </a>
+            </div>
+            <div class="col-md-6 text-md-end">
+              <small class="text-muted">
+                <i class="bi bi-clock me-1"></i>Last updated: <%= format_date(@post[:updated_at]) %>
+              </small>
+            </div>
+          </div>
+        </footer>
+      </article>
+    </div>
+  </div>
+</div>

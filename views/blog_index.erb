@@ -1,0 +1,82 @@
+<div class="container my-5">
+  <div class="row">
+    <div class="col-12">
+      <div class="hero-section text-center py-5 mb-5 rounded">
+        <h1 class="display-4 fw-bold">
+          <i class="bi bi-journal-text me-3"></i>Blog
+        </h1>
+        <p class="lead">Latest insights and updates on PTD development</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <% if @posts.any? %>
+        <% @posts.each do |post| %>
+          <article class="card mb-4">
+            <div class="card-body">
+              <h2 class="card-title">
+                <a href="/blog/<%= post[:date_slug] %>" class="text-decoration-none">
+                  <%= post[:title] %>
+                </a>
+              </h2>
+              
+              <div class="blog-meta mb-3">
+                <span>By <%= post[:author] %></span>
+                <span class="mx-2">•</span>
+                <span><%= format_date(post[:date]) %></span>
+                <% if post[:tags].any? %>
+                  <span class="mx-2">•</span>
+                  <% post[:tags].each do |tag| %>
+                    <span class="tag me-1"><%= tag %></span>
+                  <% end %>
+                <% end %>
+              </div>
+              
+              <% if post[:description] %>
+                <p class="card-text"><%= post[:description] %></p>
+              <% else %>
+                <p class="card-text">
+                  <%= truncate_content(post[:content].gsub(/[#*`\[\]()_-]/, '')) %>
+                </p>
+              <% end %>
+              
+              <a href="/blog/<%= post[:date_slug] %>" class="btn btn-ptd-primary">
+                <i class="bi bi-arrow-right me-1"></i>Read More
+              </a>
+            </div>
+          </article>
+        <% end %>
+      <% else %>
+        <div class="text-center py-5">
+          <div class="mb-4">
+            <i class="bi bi-journal-plus display-1 text-muted"></i>
+          </div>
+          <h3>No blog posts yet</h3>
+          <p class="text-muted">Check back soon for updates on PTD development!</p>
+          <a href="/docs" class="btn btn-outline-primary">
+            <i class="bi bi-book me-1"></i>Explore Documentation
+          </a>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="sticky-top" style="top: 2rem;">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">About PTD</h5>
+            <p class="card-text">
+              Polyglot Transpilation Development enables rapid prototyping in Ruby 
+              with automatic conversion to high-performance Rust binaries.
+            </p>
+            <a href="/about" class="btn btn-outline-primary">
+              <i class="bi bi-arrow-right me-1"></i>Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

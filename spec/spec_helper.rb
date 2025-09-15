@@ -1,7 +1,9 @@
 require 'rspec'
 require 'json'
-require 'stringio'
-require 'tempfile'
+require 'rack/test'
+
+# Load the application
+require_relative '../src/server'
 
 # Configure RSpec
 RSpec.configure do |config|
@@ -24,24 +26,10 @@ RSpec.configure do |config|
   config.profile_examples = 10
   config.order = :random
   Kernel.srand config.seed
-end
 
-# Helper method for capturing stdout
-def capture_stdout
-  original_stdout = $stdout
-  $stdout = StringIO.new
-  yield
-  $stdout.string
-ensure
-  $stdout = original_stdout
-end
-
-# Helper method for capturing stderr
-def capture_stderr
-  original_stderr = $stderr
-  $stderr = StringIO.new
-  yield
-  $stderr.string
-ensure
-  $stderr = original_stderr
+  # Set test environment
+  config.before(:suite) do
+    ENV['RACK_ENV'] = 'test'
+    ENV['SINATRA_ENV'] = 'test'
+  end
 end

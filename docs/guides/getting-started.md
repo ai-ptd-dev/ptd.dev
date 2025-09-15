@@ -33,7 +33,7 @@ bundle install
 ```
 basiccli/
 ├── src/
-│   ├── cli.rb              # Ruby CLI entry point
+│   ├── server.rb           # Ruby server entry point
 │   ├── cli.rs              # Rust CLI entry point (transpiled)
 │   ├── commands/
 │   │   ├── hello.rb        # Ruby command
@@ -69,7 +69,7 @@ basiccli/
 ./bin/basiccli-ruby hello "World"
 
 # Direct execution
-bundle exec ruby src/cli.rb hello "World"
+bundle exec ruby src/server.rb hello "World"
 ```
 
 ### Rust Version (Production)
@@ -147,7 +147,7 @@ end
 ```
 
 ### 2. Add to CLI
-Register in `src/cli.rb`:
+Register in `src/server.rb`:
 ```ruby
 desc "mycommand", "Description here"
 def mycommand

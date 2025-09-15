@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= @page_title || 'PTD.dev - Polyglot Transpilation Development' %></title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="<%= @page_description || 'PTD enables developers to write in expressive languages (Ruby, Python, JavaScript) and deploy with native performance (Rust, Swift, C#) using AI-powered transpilation.' %>">
+  <meta name="keywords" content="PTD, polyglot transpilation, Ruby to Rust, Python to Rust, JavaScript to Rust, AI transpilation, native performance, Sebastian Buza">
+  <meta name="author" content="Sebastian Buza">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://ptd.dev<%= request.path_info %>">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ptd.dev<%= request.path_info %>">
+  <meta property="og:title" content="<%= @page_title || 'PTD.dev - Polyglot Transpilation Development' %>">
+  <meta property="og:description" content="<%= @page_description || 'Write in expressive languages, deploy with native performance using AI-powered transpilation.' %>">
+  <meta property="og:image" content="https://ptd.dev/images/icons/og-image.png">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta property="og:site_name" content="PTD.dev">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://ptd.dev<%= request.path_info %>">
+  <meta property="twitter:title" content="<%= @page_title || 'PTD.dev - Polyglot Transpilation Development' %>">
+  <meta property="twitter:description" content="<%= @page_description || 'Write in expressive languages, deploy with native performance using AI-powered transpilation.' %>">
+  <meta property="twitter:image" content="https://ptd.dev/images/icons/og-image.png">
+  <meta property="twitter:creator" content="@sebyx07">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/icons/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/icons/apple-touch-icon-120x120.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#0a0e27">
+  <meta name="msapplication-TileImage" content="/images/icons/mstile-144x144.png">
+  <meta name="theme-color" content="#0a0e27">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  
+  <!-- Syntax highlighting -->
+  <style>
+    /* CodeRay syntax highlighting styles */
+    .CodeRay {
+      background-color: var(--ptd-darker);
+      border: 1px solid var(--ptd-border);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+      color: var(--ptd-text-primary);
+    }
+    .CodeRay .line-numbers {
+      color: #999;
+      margin-right: 1rem;
+    }
+    .CodeRay .keyword { color: #ff79c6; font-weight: bold; }
+    .CodeRay .string { color: #f1fa8c; }
+    .CodeRay .comment { color: #6272a4; font-style: italic; }
+    .CodeRay .class { color: #8be9fd; font-weight: bold; }
+    .CodeRay .function { color: #50fa7b; }
+    .CodeRay .number { color: #bd93f9; }
+    .CodeRay .symbol { color: #ffb86c; }
+    .CodeRay .constant { color: #8be9fd; }
+    .CodeRay .variable { color: #f8f8f2; }
+  </style>
+  
+  <!-- Custom CSS -->
+  <style>
+    :root {
+      --ptd-primary: #00bcd4;
+      --ptd-primary-dark: #0097a7;
+      --ptd-primary-light: #4dd0e1;
+      --ptd-secondary: #64748b;
+      --ptd-accent: #00e5ff;
+      --ptd-success: #10b981;
+      --ptd-dark: #0a0e27;
+      --ptd-darker: #050714;
+      --ptd-card-bg: #0f1429;
+      --ptd-text-primary: #e0e6f1;
+      --ptd-text-secondary: #9ca3af;
+      --ptd-border: #1e293b;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      background-color: var(--ptd-dark);
+      color: var(--ptd-text-primary);
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(0, 188, 212, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 229, 255, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(0, 188, 212, 0.02) 0%, transparent 50%);
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background-color: rgba(10, 14, 39, 0.95) !important;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--ptd-border);
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      color: var(--ptd-primary) !important;
+      font-size: 1.5rem;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
+    }
+    
+    .navbar-brand:hover {
+      text-shadow: 0 0 25px rgba(0, 229, 255, 0.8);
+    }
+    
+    .navbar-toggler {
+      border-color: var(--ptd-primary);
+    }
+    
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 188, 212, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    .nav-link {
+      color: var(--ptd-text-secondary) !important;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .nav-link:hover {
+      color: var(--ptd-primary) !important;
+    }
+    
+    .nav-link.active {
+      color: var(--ptd-primary) !important;
+      font-weight: 600;
+    }
+    
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--ptd-primary), transparent);
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, rgba(0, 188, 212, 0.1) 0%, rgba(0, 229, 255, 0.05) 100%);
+      color: var(--ptd-text-primary);
+      padding: 4rem 0;
+      border-bottom: 1px solid var(--ptd-border);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0, 188, 212, 0.1) 0%, transparent 70%);
+      animation: pulse 15s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .hero-section > * {
+      position: relative;
+      z-index: 1;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
+      50% { transform: scale(1.05) rotate(90deg); opacity: 0.2; }
+    }
+
+    .feature-card {
+      transition: all 0.3s ease;
+      border: 1px solid var(--ptd-border);
+      background: linear-gradient(135deg, var(--ptd-card-bg) 0%, rgba(15, 20, 41, 0.5) 100%);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      color: var(--ptd-text-primary);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 188, 212, 0.2);
+      border-color: var(--ptd-primary);
+      background: linear-gradient(135deg, rgba(0, 188, 212, 0.05) 0%, var(--ptd-card-bg) 100%);
+    }
+
+    .code-block {
+      background: var(--ptd-darker);
+      border: 1px solid var(--ptd-border);
+      border-left: 4px solid var(--ptd-primary);
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0.5rem;
+      color: var(--ptd-text-primary);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .highlight {
+      background: var(--ptd-darker);
+      border: 1px solid var(--ptd-border);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+      color: var(--ptd-text-primary);
+    }
+
+    .btn-ptd-primary {
+      background: linear-gradient(135deg, var(--ptd-primary) 0%, var(--ptd-primary-dark) 100%);
+      border: 1px solid var(--ptd-primary);
+      color: white;
+      box-shadow: 0 2px 10px rgba(0, 188, 212, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .btn-ptd-primary:hover {
+      background: linear-gradient(135deg, var(--ptd-primary-light) 0%, var(--ptd-primary) 100%);
+      border-color: var(--ptd-primary-light);
+      color: white;
+      box-shadow: 0 4px 20px rgba(0, 229, 255, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .btn-light {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--ptd-primary);
+      color: var(--ptd-primary);
+    }
+    
+    .btn-light:hover {
+      background: rgba(0, 188, 212, 0.1);
+      border-color: var(--ptd-primary-light);
+      color: var(--ptd-primary-light);
+    }
+    
+    .btn-outline-light {
+      color: var(--ptd-primary);
+      border-color: var(--ptd-primary);
+    }
+    
+    .btn-outline-light:hover {
+      background: rgba(0, 188, 212, 0.1);
+      border-color: var(--ptd-primary-light);
+      color: var(--ptd-primary-light);
+    }
+    
+    .btn-outline-primary {
+      color: var(--ptd-primary);
+      border-color: var(--ptd-primary);
+    }
+    
+    .btn-outline-primary:hover {
+      background: var(--ptd-primary);
+      border-color: var(--ptd-primary);
+      color: var(--ptd-darker);
+    }
+
+    .footer {
+      background: linear-gradient(180deg, var(--ptd-dark) 0%, var(--ptd-darker) 100%);
+      color: var(--ptd-text-primary);
+      margin-top: 4rem;
+      border-top: 1px solid var(--ptd-border);
+    }
+    
+    .footer a {
+      color: var(--ptd-primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer a:hover {
+      color: var(--ptd-primary-light);
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+    }
+
+    .table-responsive {
+      margin: 1rem 0;
+    }
+
+    .blockquote {
+      border-left: 4px solid var(--ptd-accent);
+      padding-left: 1rem;
+      margin: 1rem 0;
+      font-style: italic;
+    }
+
+    .blog-meta {
+      color: var(--ptd-secondary);
+      font-size: 0.9rem;
+    }
+
+    .tag {
+      background: linear-gradient(135deg, var(--ptd-primary) 0%, var(--ptd-primary-dark) 100%);
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.8rem;
+      text-decoration: none;
+      display: inline-block;
+      margin: 0.2rem;
+      box-shadow: 0 2px 5px rgba(0, 188, 212, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .tag:hover {
+      background: linear-gradient(135deg, var(--ptd-primary-light) 0%, var(--ptd-primary) 100%);
+      color: white;
+      text-decoration: none;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 229, 255, 0.3);
+    }
+
+    /* Additional responsive improvements */
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 2rem 0;
+      }
+      
+      .hero-section .display-4 {
+        font-size: 2rem;
+      }
+      
+      .navbar-brand {
+        font-size: 1.1rem;
+      }
+    }
+
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Focus styles for accessibility */
+    .btn:focus,
+    .nav-link:focus,
+    .list-group-item:focus {
+      box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+    }
+
+    /* Card styles */
+    .card {
+      background: var(--ptd-card-bg);
+      border: 1px solid var(--ptd-border);
+      color: var(--ptd-text-primary);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--ptd-primary);
+      box-shadow: 0 4px 15px rgba(0, 188, 212, 0.2);
+    }
+    
+    .card-title {
+      color: var(--ptd-primary);
+    }
+    
+    .card-text {
+      color: var(--ptd-text-secondary);
+    }
+    
+    /* Background pattern for sections */
+    .bg-light {
+      background: linear-gradient(135deg, rgba(0, 188, 212, 0.02) 0%, rgba(0, 229, 255, 0.01) 100%) !important;
+      background-color: var(--ptd-darker) !important;
+    }
+    
+    .bg-dark {
+      background: var(--ptd-darker) !important;
+    }
+    
+    .bg-secondary {
+      background: var(--ptd-card-bg) !important;
+    }
+    
+    .text-primary {
+      color: var(--ptd-primary) !important;
+    }
+    
+    .text-success {
+      color: var(--ptd-success) !important;
+    }
+    
+    .text-warning {
+      color: var(--ptd-accent) !important;
+    }
+    
+    .text-info {
+      color: var(--ptd-primary-light) !important;
+    }
+    
+    .text-danger {
+      color: #ef4444 !important;
+    }
+    
+    .text-white {
+      color: var(--ptd-text-primary) !important;
+    }
+    
+    .text-muted {
+      color: var(--ptd-text-secondary) !important;
+    }
+    
+    .lead {
+      color: var(--ptd-text-secondary);
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--ptd-text-primary);
+    }
+    
+    /* Fix heading colors in list groups */
+    .list-group-item h6 {
+      color: var(--ptd-primary);
+      font-weight: 600;
+    }
+    
+    .display-4 {
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--ptd-primary) 0%, var(--ptd-accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .border-end {
+      border-color: var(--ptd-border) !important;
+    }
+    
+    /* List group styles */
+    .list-group-item {
+      background: var(--ptd-card-bg);
+      border: 1px solid var(--ptd-border);
+      color: var(--ptd-text-primary);
+    }
+    
+    .list-group-item:hover {
+      background: rgba(0, 188, 212, 0.05);
+      border-color: var(--ptd-primary);
+    }
+    
+    .list-group-item-action {
+      color: var(--ptd-text-primary);
+    }
+    
+    .list-group-item-action:hover {
+      background: rgba(0, 188, 212, 0.08);
+      color: var(--ptd-text-primary);
+    }
+    
+    .list-group-item-action:focus,
+    .list-group-item-action:active {
+      background: rgba(0, 188, 212, 0.1);
+      color: var(--ptd-primary);
+    }
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--ptd-darker);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--ptd-primary);
+      border-radius: 5px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--ptd-primary-light);
+    }
+    
+    /* Accordion styles for dark theme */
+    .accordion {
+      --bs-accordion-bg: var(--ptd-card-bg);
+      --bs-accordion-color: var(--ptd-text-primary);
+      --bs-accordion-border-color: var(--ptd-border);
+      --bs-accordion-btn-bg: var(--ptd-card-bg);
+      --bs-accordion-btn-color: var(--ptd-text-primary);
+      --bs-accordion-active-bg: rgba(0, 188, 212, 0.1);
+      --bs-accordion-active-color: var(--ptd-primary);
+      --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.25);
+    }
+    
+    .accordion-item {
+      background: var(--ptd-card-bg);
+      border: 1px solid var(--ptd-border);
+      color: var(--ptd-text-primary);
+    }
+    
+    .accordion-header {
+      background: transparent;
+    }
+    
+    .accordion-button {
+      background: var(--ptd-card-bg);
+      color: var(--ptd-text-primary);
+      border: none;
+      box-shadow: none;
+    }
+    
+    .accordion-button:not(.collapsed) {
+      background: rgba(0, 188, 212, 0.1);
+      color: var(--ptd-primary);
+      box-shadow: none;
+    }
+    
+    .accordion-button:focus {
+      box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.25);
+      border-color: var(--ptd-primary);
+    }
+    
+    .accordion-button::after {
+      filter: invert(1) sepia(1) saturate(5) hue-rotate(165deg);
+    }
+    
+    .accordion-body {
+      background: var(--ptd-card-bg);
+      color: var(--ptd-text-secondary);
+    }
+    
+    .accordion-collapse {
+      border-top: 1px solid var(--ptd-border);
+    }
+
+    /* Code block improvements */
+    .highlight pre,
+    .CodeRay {
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    /* Table styles for dark theme */
+    .table {
+      color: var(--ptd-text-primary);
+      --bs-table-bg: var(--ptd-card-bg);
+      --bs-table-striped-bg: rgba(0, 188, 212, 0.05);
+      --bs-table-hover-bg: rgba(0, 188, 212, 0.1);
+      --bs-table-border-color: var(--ptd-border);
+    }
+    
+    .table thead {
+      background: var(--ptd-darker);
+      color: var(--ptd-primary);
+    }
+    
+    .table-responsive {
+      border-radius: 0.375rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      background: var(--ptd-card-bg);
+    }
+    
+    .table td, .table th {
+      border-color: var(--ptd-border);
+      color: var(--ptd-text-primary);
+    }
+    
+    .table-striped > tbody > tr:nth-of-type(odd) > * {
+      background-color: rgba(0, 188, 212, 0.03);
+    }
+
+    /* Loading animation for dynamic content */
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    /* Utility classes */
+    .text-gradient {
+      background: linear-gradient(135deg, var(--ptd-primary), var(--ptd-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="/">PTD.dev</a>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <%= nav_link('/', '<i class="bi bi-house me-1"></i>Home') %>
+          </li>
+          <li class="nav-item">
+            <%= nav_link('/docs', '<i class="bi bi-book me-1"></i>Documentation') %>
+          </li>
+          <li class="nav-item">
+            <%= nav_link('/blog', '<i class="bi bi-journal-text me-1"></i>Blog') %>
+          </li>
+          <li class="nav-item">
+            <%= nav_link('/about', '<i class="bi bi-info-circle me-1"></i>About') %>
+          </li>
+          <li class="nav-item">
+            <%= nav_link('/contact', '<i class="bi bi-envelope me-1"></i>Contact') %>
+          </li>
+        </ul>
+        
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/ai-ptd-dev" target="_blank" rel="noopener noreferrer">
+              <i class="bi bi-github me-1"></i>GitHub
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <%= yield %>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5>PTD.dev</h5>
+          <p class="mb-0">Polyglot Transpilation Development - Have Your Cake and Eat It Too</p>
+          <p class="mb-0 small text-muted">This site: Developed with Ruby/Sinatra, Deployed as Rust</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p class="mb-0">
+            Created by <a href="https://github.com/sebyx07" class="text-white">Sebastian Buza</a>
+          </p>
+          <p class="mb-0">
+            <small>&copy; <%= Time.now.year %> PTD.dev. All rights reserved.</small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').then(function(registration) {
+          console.log('ServiceWorker registration successful');
+        }, function(err) {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
+</body>
+</html>

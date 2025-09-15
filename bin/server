@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+
+# Set development environment
+ENV['RACK_ENV'] ||= 'development'
+ENV['SINATRA_ENV'] ||= 'development'
+
+# Start the server
+if ARGV.include?('--rerun')
+  exec 'bundle exec rerun --background --pattern "**/*.{rb,erb,md,html}" -- rackup -p 4567'
+else
+  exec 'bundle exec rackup -p 4567'
+end

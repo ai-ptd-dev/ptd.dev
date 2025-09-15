@@ -1,0 +1,35 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 text-center">
+      <div class="mb-4">
+        <i class="bi bi-exclamation-triangle display-1 text-danger"></i>
+      </div>
+      <h1 class="display-1">500</h1>
+      <h2>Internal Server Error</h2>
+      <p class="lead">Something went wrong on our end.</p>
+      <p>We've been notified and are working to fix the issue.</p>
+      
+      <% if ENV['RACK_ENV'] == 'development' && @error %>
+        <div class="alert alert-danger text-start mt-4">
+          <h6>Error Details (Development Mode):</h6>
+          <pre><%= @error.message %></pre>
+          <% if @error.backtrace %>
+            <details>
+              <summary>Stack Trace</summary>
+              <pre><%= @error.backtrace.join("\n") %></pre>
+            </details>
+          <% end %>
+        </div>
+      <% end %>
+      
+      <div class="mt-4">
+        <a href="/" class="btn btn-ptd-primary me-2">
+          <i class="bi bi-house me-1"></i>Go Home
+        </a>
+        <a href="/contact" class="btn btn-outline-secondary">
+          <i class="bi bi-bug me-1"></i>Report Issue
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,151 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'date'
+require 'time'
+require 'fileutils'
+
+# PTD Blog Post Generator
+# Usage: ./bin/generate-post "Your Post Title"
+# Creates a new blog post with timestamp-based filename and proper frontmatter
+
+class BlogPostGenerator
+  BLOG_DIR = File.expand_path('../content/blog', __dir__)
+  AUTHOR = 'Sebastian Buza'
+
+  def initialize(title)
+    @title = title
+    @slug = generate_slug(title)
+    @date = Date.today
+    @timestamp = Time.now
+    @filename = generate_filename
+    @filepath = File.join(BLOG_DIR, @filename)
+  end
+
+  def generate!
+    ensure_blog_directory_exists
+
+    if File.exist?(@filepath)
+      puts "❌ Error: Blog post already exists at #{@filepath}"
+      exit 1
+    end
+
+    create_blog_post
+    puts '✅ Blog post created successfully!'
+    puts "📝 File: #{@filepath}"
+    puts "🔗 URL: /blog/#{@date.strftime('%Y/%m/%d')}/#{@slug}"
+    puts ''
+    puts 'Next steps:'
+    puts "1. Edit the content in #{@filename}"
+    puts '2. Set published: true when ready to publish'
+    puts '3. Add relevant tags'
+  end
+
+  private
+
+  def generate_slug(title)
+    title.downcase
+         .gsub(/[^\w\s-]/, '') # Remove special characters
+         .gsub(/\s+/, '-')     # Replace spaces with hyphens
+         .gsub(/-+/, '-')      # Replace multiple hyphens with single
+         .strip                # Remove leading/trailing whitespace
+         .gsub(/^-|-$/, '')    # Remove leading/trailing hyphens
+  end
+
+  def generate_filename
+    timestamp = @timestamp.strftime('%Y%m%d%H%M%S')
+    "#{timestamp}_#{@slug}.md"
+  end
+
+  def ensure_blog_directory_exists
+    FileUtils.mkdir_p(BLOG_DIR)
+  end
+
+  def create_blog_post
+    content = generate_frontmatter + generate_content_template
+
+    File.write(@filepath, content)
+  end
+
+  def generate_frontmatter
+    <<~FRONTMATTER
+      ---
+      title: "#{@title}"
+      description: "Add a compelling description for SEO and social sharing"
+      author: "#{AUTHOR}"
+      date: "#{@timestamp.strftime('%Y-%m-%d %H:%M:%S %z')}"
+      created_at: "#{@timestamp.iso8601}"
+      tags: ["ptd", "ruby", "rust"]
+      published: false
+      ---
+
+    FRONTMATTER
+  end
+
+  def generate_content_template
+    <<~CONTENT
+      # #{@title}
+
+      Write your blog post content here using Markdown syntax.
+
+      ## Introduction
+
+      Start with an engaging introduction that hooks your readers.
+
+      ## Main Content
+
+      Organize your content with clear headings and sections.
+
+      ### Code Examples
+
+      ```ruby
+      # Ruby code example
+      class Example
+        def hello
+          puts "Hello, PTD!"
+        end
+      end
+      ```
+
+      ```rust
+      // Rust code example
+      struct Example;
+
+      impl Example {
+          pub fn hello() {
+              println!("Hello, PTD!");
+          }
+      }
+      ```
+
+      ## Conclusion
+
+      Wrap up your post with key takeaways and next steps.
+
+      ---
+
+      **Questions?** [Get in touch](/contact) or check out the [documentation](/docs).
+    CONTENT
+  end
+end
+
+# Main execution
+if ARGV.empty?
+  puts "Usage: #{$PROGRAM_NAME} \"Your Post Title\""
+  puts ''
+  puts 'Examples:'
+  puts "  #{$PROGRAM_NAME} \"Getting Started with PTD\""
+  puts "  #{$PROGRAM_NAME} \"Advanced Ruby to Rust Transpilation\""
+  puts "  #{$PROGRAM_NAME} \"Performance Benchmarks: Ruby vs Rust\""
+  exit 1
+end
+
+title = ARGV.join(' ')
+
+if title.strip.empty?
+  puts '❌ Error: Post title cannot be empty'
+  exit 1
+end
+
+generator = BlogPostGenerator.new(title)
+generator.generate!
