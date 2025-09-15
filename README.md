@@ -1,36 +1,38 @@
-# PTD Ruby CLI - AI-Powered Polyglot Framework
+# PTD Ruby CLI - Developer-First Framework with OpenCode AI
 
-> **Develop in Ruby, Deploy in Rust**: OpenCode agents achieve 250x performance gains through intelligent transpilation.
+> **Write Ruby, Ship Rust**: Real developers using OpenCode AI agents to achieve 250x performance gains through automatic transpilation.
 
-This framework demonstrates **PTD (Polyglot Transpilation Development)** - an AI-powered paradigm where you develop in expressive Ruby and automatically deploy optimized Rust binaries using OpenCode agents.
+This framework demonstrates **PTD (Polyglot Transpilation Development)** - a developer-first approach where you write Ruby code and OpenCode AI agents automatically create optimized Rust versions. No manual porting, no compromise on performance.
 
-## 🚀 Quick Start Options
+## 🚀 Quick Start for Developers
 
-### Option 1: Complete TodoCLI Example (Recommended)
+### Start Your Own Project (Fork This!)
 ```bash
-# Clone the complete TodoCLI implementation
-git clone https://github.com/ai-ptd-dev/ptd-ruby-cli.git -b todo-list-example
+# Fork this repository on GitHub first, then:
+git clone https://github.com/YOUR-USERNAME/ptd-ruby-cli.git
 cd ptd-ruby-cli
 
-# Install dependencies and try it out
+# Install dependencies
 bundle install
-./bin/todocli-ruby add "Learn PTD with OpenCode" --priority high
-./bin/todocli-ruby list
 
-# Experience 250x performance with Rust
+# Try the example commands
+./bin/basiccli-ruby hello
+./bin/basiccli-ruby version
+
+# Build and run the Rust version
 ./bin/compile
-./bin/todocli-rust list  # Instant execution!
+./bin/basiccli-rust hello  # 250x faster startup!
 ```
 
-### Option 2: Clean Framework (Advanced)
-```bash
-# Clone the base framework for custom projects
-git clone https://github.com/ai-ptd-dev/ptd-ruby-cli.git
-cd ptd-ruby-cli
+### See a Complete Example: TodoCLI
+Want to see what you can build? Check out the **[todo-list-example branch](https://github.com/ai-ptd-dev/ptd-ruby-cli/tree/todo-list-example)**:
+- Full todo list manager with SQLite
+- 7 commands, 69 tests, 250x performance gain
+- Shows OpenCode agents in action
 
-# Build your own CLI with OpenCode agents
-bundle install
-# Add your commands in Ruby, let AI transpile to Rust
+```bash
+# View the example (don't clone, just browse)
+# https://github.com/ai-ptd-dev/ptd-ruby-cli/tree/todo-list-example
 ```
 
 ## 📊 AI-Achieved Performance Gains
@@ -62,37 +64,65 @@ OpenCode agents automatically optimized the transpilation to achieve:
 
 [Learn more about PTD →](docs/base/ptd-paradigm.md)
 
+## 🤖 OpenCode Integration
+
+### The .opencode Directory - Your AI Development Team
+
+```
+.opencode/
+├── agent/                  # AI agent personalities
+│   ├── ruby-dev.md        # Ruby expert following SOLID principles
+│   └── rust-transpiler.md # Rust expert for transpilation
+└── command/               # OpenCode commands you can run
+    ├── transpile.md       # Auto-transpile Ruby changes to Rust
+    └── setup.md          # Convert boilerplate to your project
+```
+
+### How to Use OpenCode Agents
+
+```bash
+# 1. Make changes to your Ruby code
+vim src/commands/myfeature.rb
+
+# 2. Let OpenCode transpile it automatically
+opencode transpile  # AI analyzes changes and updates Rust code
+
+# 3. Verify both implementations work
+./bin/rspec         # Ruby tests
+./bin/test          # Rust tests
+./bin/compile       # Build optimized Rust binary
+```
+
+### Developer Workflow with OpenCode
+
+1. **Write Ruby First**: Focus on functionality, not performance
+2. **OpenCode Transpiles**: AI agents convert to idiomatic Rust
+3. **Tests Ensure Parity**: Both implementations tested automatically
+4. **Deploy Rust Binary**: Ship the performance-optimized version
+
 ## 📁 Project Structure
 
 ```
-basiccli/
+ptd-ruby-cli/
+├── .opencode/              # OpenCode AI configuration
+│   ├── agent/             # AI agent definitions
+│   └── command/           # Automation commands
 ├── src/
-│   ├── cli.rb              # Ruby entry point
-│   ├── cli.rs              # Rust entry point (transpiled)
+│   ├── cli.rb             # Ruby entry point
+│   ├── cli.rs             # Rust entry point (AI-transpiled)
 │   ├── commands/
-│   │   ├── hello.rb        # Ruby implementation
-│   │   ├── hello.rs        # Rust implementation (side-by-side!)
-│   │   └── ...
+│   │   ├── *.rb           # Your Ruby implementations
+│   │   └── *.rs           # AI-generated Rust versions
 │   └── utils/
-│       ├── logger.rb       # Ruby utility
-│       ├── logger.rs       # Rust utility
-│       └── ...
-├── spec/
-│   ├── commands/
-│   │   ├── hello_spec.rb   # Ruby tests
-│   │   ├── hello_test.rs   # Rust tests (side-by-side!)
-│   │   └── ...
-├── bin/
-│   ├── basiccli-ruby       # Ruby runner
-│   ├── basiccli-rust       # Rust runner
+│       ├── *.rb           # Ruby utilities
+│       └── *.rs           # Rust utilities (AI-transpiled)
+├── spec/                   # Test suites for both languages
+├── bin/                    # Developer tools
 │   ├── compile            # Build Rust binary
 │   ├── test              # Run Rust tests
 │   ├── rspec             # Run Ruby tests
 │   └── lint              # Lint both languages
-└── docs/
-    ├── base/             # Core concepts
-    ├── guides/           # How-to guides
-    └── reference/        # API reference
+└── docs/                   # Documentation
 ```
 
 ## 🛠 Features
@@ -113,50 +143,65 @@ basiccli/
 - `./bin/rspec` - Run Ruby test suite
 - `./bin/lint` - Auto-fix code style issues
 
-## 💻 Development Workflow
+## 💻 Real Developer Workflow
 
-### 1. Create Ruby Command
+### Step 1: Write Your Ruby Code (Focus on Logic)
 ```ruby
-# src/commands/mycommand.rb
-module BasicCli
+# src/commands/myfeature.rb
+module TodoCli
   module Commands
-    class MyCommand
-      def execute
-        puts "Hello from Ruby!"
+    class MyFeature
+      def execute(options = {})
+        # Write clean Ruby - OpenCode handles the rest
+        database = Utils::Database.new
+        results = database.query(options[:filter])
+        puts format_output(results)
       end
     end
   end
 end
 ```
 
-### 2. Write Tests
-```ruby
-# spec/commands/mycommand_spec.rb
-RSpec.describe BasicCli::Commands::MyCommand do
-  it 'works' do
-    expect { described_class.new.execute }
-      .to output(/Hello/).to_stdout
-  end
-end
+### Step 2: OpenCode Transpiles Automatically
+```bash
+# Run the transpile command - AI does the work
+opencode transpile
+
+# OpenCode:
+# ✓ Detects your Ruby changes
+# ✓ Understands the business logic
+# ✓ Generates idiomatic Rust code
+# ✓ Maintains error handling patterns
+# ✓ Creates equivalent tests
 ```
 
-### 3. Transpile to Rust
+### Step 3: AI-Generated Rust (Optimized)
 ```rust
-// src/commands/mycommand.rs
-pub struct MyCommand;
+// src/commands/myfeature.rs (AI-generated)
+use crate::utils::database::Database;
+use anyhow::Result;
 
-impl MyCommand {
-    pub fn execute(&self) -> Result<()> {
-        println!("Hello from Rust!");
+pub struct MyFeature;
+
+impl MyFeature {
+    pub fn execute(&self, filter: Option<&str>) -> Result<()> {
+        let db = Database::new()?;
+        let results = db.query(filter)?;
+        println!("{}", self.format_output(&results));
         Ok(())
     }
 }
 ```
 
-### 4. Compile & Deploy
+### Step 4: Verify & Deploy
 ```bash
+# Tests pass for both implementations
+./bin/rspec  # ✓ Ruby tests
+./bin/test   # ✓ Rust tests
+
+# Ship the fast version
 ./bin/compile
-./bin/basiccli-rust mycommand  # Instant execution!
+./bin/todocli-rust myfeature  # 250x faster startup!
 ```
 
 ## 📈 Real-World Impact: TodoCLI Case Study
@@ -185,17 +230,28 @@ impl MyCommand {
 - **🎯 Perfect Parity**: Identical functionality guaranteed across languages
 - **⚡ Performance Optimization**: Best practices applied without manual effort
 
-## 🎓 OpenCode & PTD Documentation
+## 🎓 Learn More About OpenCode & PTD
 
-- [**PTD Paradigm**](docs/base/ptd-paradigm.md) - AI-powered polyglot development
-- [**Performance Analysis**](docs/base/performance.md) - Agent optimization results
-- [**Getting Started**](docs/guides/getting-started.md) - OpenCode setup and usage
-- [**AI Agent Workflows**](docs/guides/) - Transpilation patterns and examples
+### Essential Documentation
+- [**OpenCode Guide**](opencode.md) - Complete guide to using OpenCode agents
+- [**PTD Paradigm**](docs/base/ptd-paradigm.md) - Understanding polyglot development
+- [**Getting Started**](docs/guides/getting-started.md) - Setup and first steps
+- [**Performance Analysis**](docs/base/performance.md) - Real benchmarks
 
-### OpenCode Resources
-- **Agent Models**: Ruby-to-Rust transpilation specialists
-- **AI Capabilities**: Semantic understanding, test generation, optimization
-- **Integration**: Seamless development workflow automation
+### OpenCode Agent Capabilities
+- **ruby-dev Agent**: Writes clean Ruby following SOLID principles
+- **rust-transpiler Agent**: Converts Ruby to optimized Rust
+- **Semantic Understanding**: Preserves business logic, not just syntax
+- **Test Generation**: Creates comprehensive test suites
+- **Performance Optimization**: Applies Rust best practices automatically
+
+### Try the TodoCLI Example
+The **[todo-list-example branch](https://github.com/ai-ptd-dev/ptd-ruby-cli/tree/todo-list-example)** contains a complete todo list manager showing:
+- Full CRUD operations with SQLite
+- Priority management and filtering
+- JSON export/import
+- 69 auto-generated tests
+- 250x performance improvement
 
 ## 🔧 Use This Boilerplate
 
